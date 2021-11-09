@@ -10,6 +10,4 @@ public class HomeController {
 	public String toHomePage() {		
 		return "home";
 	}
-	
-	
 }

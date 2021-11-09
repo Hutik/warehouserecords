@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
-<title>Home</title>
+<title th:text="#{warehouserecords}">Warehouse Records</title>
 </head>
 <body>
 	<div class="container">
@@ -13,23 +13,14 @@
 		<div th:replace="fragments/components :: menu"></div>
 		</br>
 		</br>
-		<div th:replace="fragments/components :: myNavbar"></div>
+		<div th:replace="fragments/components :: myNav"></div>
 		</br>
-		</br> I wreszcie ciało strony
- <h1 th:text="#{welcome}">Welcome</h1>
-
+		</br>
 		<div class="card">
-			<div class="card-header">Co zrobiono w aplikacji?</div>
+			<div class="card-header"></br></div>
 			<div class="card-body">
 				<h5 class="card-title">
 					
-					<p>Testowy szkielet aplikacji</p>
-					<p>Składniki. Model.</p>
-					<p>Repozytorium</p>
-					<p>Wstawianie danych do bazy</p>
-					<p>Należy przemysleć czy zmienna amount powinna znaleźć się w klasie Ingredients czy w klasie Dish</p>
-					</p>
-					<a href="#" class="btn btn-primary">Idź sobie na inną stronę ...</a>
 			</div>
 		</div>
 		</br>
