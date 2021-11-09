@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
+<title>Home</title>
+</head>
+<body>
+	<div class="container">
+
+		<div th:insert="fragments/components :: header"></div>
+
+		<div th:replace="fragments/components :: menu"></div>
+		</br>
+		</br>
+		<div th:replace="fragments/components :: myNavbar"></div>
+		</br>
+		</br> I wreszcie ciało strony
+ <h1 th:text="#{welcome}">Welcome</h1>
+
+		<div class="card">
+			<div class="card-header">Co zrobiono w aplikacji?</div>
+			<div class="card-body">
+				<h5 class="card-title">
+					
+					<p>Testowy szkielet aplikacji</p>
+					<p>Składniki. Model.</p>
+					<p>Repozytorium</p>
+					<p>Wstawianie danych do bazy</p>
+					<p>Należy przemysleć czy zmienna amount powinna znaleźć się w klasie Ingredients czy w klasie Dish</p>
+					</p>
+					<a href="#" class="btn btn-primary">Idź sobie na inną stronę ...</a>
+			</div>
+		</div>
+		</br>
+		</br> Stopka
+		<div th:include="fragments/components :: footer"></div>
+	</div>
+</body>
+</html>
