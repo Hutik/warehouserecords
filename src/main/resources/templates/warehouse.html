@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
-<link rel="stylesheet" href="/css/table-scrollable-body.css" />
-<title th:text="#{warehouserecords}">Warehouse Records</title>
+    <meta charset="UTF-8">
+    <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
+    <script src="/js/warehouse.js"></script>
+    
+            <link rel="stylesheet" href="/css/table-scrollable-body.css" />
+    
+    <title th:text="#{warehouserecords}">Warehouse Records</title>
 </head>
 <body>
 	<div class="container">
-
 		<div th:insert="fragments/components :: header"></div>
 		</br>
 		</br>
@@ -29,7 +31,7 @@
                         <th scope="col">Quantity</th>
                       </tr>
                     </thead>
-                    <tbody class="custom-scrollbar">
+                    <tbody class="custom-scrollbar" id="rows">
                       <tr>
                         <th scope="row"></br></th>
                         <td></td>
