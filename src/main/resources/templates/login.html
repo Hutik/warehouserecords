@@ -14,7 +14,7 @@
     <article class="card-body">
         <h4 class="card-title text-center mb-4 mt-1" th:text="#{login}">Sign in</h4>
         <hr>
-        <div th:if="${param.error}" class="alert alert-error" th:text="#{invalidLoginData}">    
+        <div th:if="${param.error}" class="alert alert-danger" th:text="#{invalidLoginData}">    
             Invalid username or password.
         </div>
         <div th:if="${param.logout}" class="alert alert-success" th:text="#{logoutInfo}"> 

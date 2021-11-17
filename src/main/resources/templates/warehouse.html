@@ -24,11 +24,11 @@
                     <thead>
                       <tr>
                         <th scope="col">Index</th>
-                        <th scope="col">Code</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Quantity</th>
+                        <th scope="col" th:text="#{code}">Code</th>
+                        <th scope="col" th:text="#{indexName}">Name</th>
+                        <th scope="col" th:text="#{description}">Description</th>
+                        <th scope="col" th:text="#{category}">Category</th>
+                        <th scope="col" th:text="#{quantity}">Quantity</th>
                       </tr>
                     </thead>
                     <tbody class="custom-scrollbar" id="rows">
