@@ -1,4 +1,5 @@
-const INDEXES_API = "http://192.168.0.104:8080/indexes";
+var url = window.location.href.replace('http://', '').split('/')[0];
+const INDEXES_API = "http://"+url+"/indexes";
 
 var target = new URL(INDEXES_API);
 
