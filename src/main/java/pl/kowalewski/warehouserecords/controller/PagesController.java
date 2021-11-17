@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class HomeController {
+public class PagesController {
 
 	@GetMapping("")
 	public String toHomePage() {		
@@ -14,6 +14,11 @@ public class HomeController {
 	@GetMapping("/login")
 	public String toLoginPage(){
 		return "login";
+	}
+
+	@GetMapping("/warehouse")
+	public String toWarehousePage(){
+		return "warehouse";
 	}
 
 }
