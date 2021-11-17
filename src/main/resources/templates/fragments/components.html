@@ -31,10 +31,11 @@
 					</div>
 					<div class="dropdown">
 						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-							<img th:src="@{/images/user_icon.png}" style="width: 30px; height: 30px;" />
+							<img th:src="@{/images/user_icon.png}" style="width: 30px; height: 30px; border-radius: 100%;" />
 							<span sec:authentication="principal.fullName"></span>
 						</button>
-						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu2">
+						<ul class="dropdown-menu dropdown-menu-end text-center" aria-labelledby="dropdownMenu2">
+						  <div ><img th:src="@{/images/user_icon.png}" style="width: 50px; height: 50px; border-radius: 100%;" /></div>
 						  <li class="dropdown-item"><a class="nav-link"
 							th:href="@{settings}" th:text="#{settings}">Settings</a></li>
 						  <li class="dropdown-item">
