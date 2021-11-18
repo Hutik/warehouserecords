@@ -51,3 +51,22 @@ function processOkResponse(response = {}) {
   }
 
 // .addEventListener('click', (event) =>{});
+
+/*
+var url = INDEXES_API+'/2';
+
+function UserAction() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+             alert(this.responseText);
+         }
+    };
+    xhttp.open("PATCH", "Your Rest URL Here", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.setRequestHeader("Set-Cookie", `${document}`);
+    xhttp.send(`{"description":"Def"}`);
+}
+*/
+
+let c = document.cookie.split(';');
