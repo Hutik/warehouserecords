@@ -17,16 +17,14 @@
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav">
+						<ul class="navbar-nav" id="nav-links">
 							<li class="nav-item"><a class="nav-link active"
-								aria-current="page" href="/" th:text="#{homePage}">Home page</a></li>
+								aria-current="page" href="/" th:text="#{homePage}" id="nav-link-home">Home page</a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{warehouse}" th:text="#{warehouse}">Warehouse</a></li>
+								th:href="@{warehouse}" th:text="#{warehouse}" id="nav-link-warehouse">Warehouse</a></li>
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{orders}" th:text="#{orders}">Orders</a></li>
-							
-							<li class="nav-item"><a class="nav-link" th:href="@{report}">Raport</a></li>
-							
+								th:href="@{orders}" th:text="#{orders}" id="nav-link-orders">Orders</a></li>
+							<li class="nav-item"><a class="nav-link" th:href="@{report}" id="nav-link-report">Report</a></li>
 						</ul>
 					</div>
 					<div class="dropdown">

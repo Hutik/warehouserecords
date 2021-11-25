@@ -3,6 +3,8 @@ const INDEXES = "http://"+url+"/indexes";
 const CATEGORIES = "http://"+url+"/categories";
 
 var target = new URL(INDEXES);
+document.getElementById("nav-link-home").className=document.getElementById("nav-link-home").className.replace(' active', '');
+document.getElementById("nav-link-warehouse").className+=' active';
 
 fetch(new URL(CATEGORIES))
     .then(processOkResponse)
