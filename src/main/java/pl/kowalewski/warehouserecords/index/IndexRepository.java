@@ -10,4 +10,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public interface IndexRepository extends JpaRepository<Index, Long> {
     List<Index> findAll();
+    List<Index> findByIndex(Long index);
 }
