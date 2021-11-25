@@ -24,17 +24,28 @@ public class IndexService {
     Logger logger = LoggerFactory.getLogger(IndexService.class);
     
     @GetMapping
-    ResponseEntity<List<Index>> findAllTodos(){
-        return ResponseEntity.ok(repo.findAll());
+    ResponseEntity<List<Index>> findAll(){
+        return ResponseEntity.ok(repo.findAllByOrderByIndex());
     }
 
     @GetMapping("/{index}")
-    ResponseEntity<Index> findByIndex(@PathVariable Long index){
-        return ResponseEntity.ok(repo.findByIndex(index).get(0));
+    ResponseEntity<List<Index>> findByIndex(@PathVariable Long index){
+        return ResponseEntity.ok(repo.findByIndex(index));
+    }
+
+    // var code = document.getElementById('inputCode').value;
+    // var name = document.getElementById('inputName').value;
+    // var description = document.getElementById('inputDescription').value;
+    // var category = document.getElementById('selectCategory').value;
+
+
+    @GetMapping(params={"code", "name", "description", "categoryId"})
+    ResponseEntity<List<Index>> findByParams(@PathParam("code") String code, @PathParam("name") String name, @PathParam("description") String description, @PathParam("categoryId") Integer categoryId){
+        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/{id}")
-    ResponseEntity<Index> update(@PathParam("id") Long id, @RequestBody JsonParser parser){
+    ResponseEntity<Index> update(@PathParam("id") Long id, Index index){
         logger.info("Patch request for id: "+id);
         return ResponseEntity.badRequest().build();
     }

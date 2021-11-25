@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public interface IndexRepository extends JpaRepository<Index, Long> {
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findAll();
+    List<Index> findAllByOrderByIndex();
     @EntityGraph(attributePaths = {"category"})
     List<Index> findByIndex(@Param("index") Long index);
 }
