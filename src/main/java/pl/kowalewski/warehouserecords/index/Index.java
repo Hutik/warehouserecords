@@ -2,7 +2,11 @@ package pl.kowalewski.warehouserecords.index;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import pl.kowalewski.warehouserecords.index.category.Category;
 
 @Entity
 @Table(name="Indexes")
@@ -12,7 +16,9 @@ public class Index {
     String code;
     String name;
     String description;
-    String category;
+    @ManyToOne
+    @JoinColumn(name="category_id")
+    Category category;
     Double quantity;
 
     public Long getIndex() {
@@ -39,10 +45,10 @@ public class Index {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
     public Double getQuantity() {

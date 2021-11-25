@@ -1,7 +1,20 @@
 var url = window.location.href.replace('http://', '').split('/')[0];
-const INDEXES_API = "http://"+url+"/indexes";
+const INDEXES = "http://"+url+"/indexes";
+const CATEGORIES = "http://"+url+"/categories";
 
-var target = new URL(INDEXES_API);
+var target = new URL(INDEXES);
+
+fetch(new URL(CATEGORIES))
+    .then(processOkResponse)
+    .then(categories => {
+        var ooc = categories.map(category => {
+            return `<option value='${category.id}'>${category.name}</option>`
+        });
+
+        document.getElementById('selectCategory').innerHTML=ooc;
+        document.getElementById('categoryFO').innerHTML=ooc;
+    });
+
 
 fetch(target)
         .then(processOkResponse)
@@ -15,7 +28,7 @@ fetch(target)
                     <td>${index.code}</td>
                     <td>${index.name}</td>
                     <td>${index.description}</td>
-                    <td>${index.category}</td>
+                    <td>${index.category.name}</td>
                     <td>${index.quantity}</td>
                 </tr>
             `}).join('\n');

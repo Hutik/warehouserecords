@@ -15,34 +15,28 @@
 		</br>
 		<div th:replace="fragments/components :: navbar"></div>
 		</br>
-		</br>
     <!-- filtering form -->
-    <div>
-      <form class="row g-3">
-        <div class="col-md-2">
-          <label for="inputIndex" class="form-label">Index</label>
-          <input type="number" class="form-control" id="inputIndex">
-        </div>
-        <div class="col-md-3">
-          <label for="inputCode" class="form-label" th:text="#{code}">Code</label>
-          <input type="text" class="form-control" id="inputCode" th:placeholder="#{code}">
-        </div>
-        <div class="col-md-4">
-          <label for="inputDescription" class="form-label" th:text="#{description}">Description</label>
-          <input type="text" class="form-control" id="inputDescription" th:placeholder="#{description}">
-        </div>
-        <div class="col-md-4">
-          <label for="inputCategory" class="form-label" th:text="#{category}">Category</label>
-          <select class="form-control" id="inputCategory" th:placeholder="#{category}">
-            <option>Hahahahahaha</option>
-            <option>Another option</option>
-          </select>
-        </div>
-        <div class="col-12">
-          <button type="submit" class="btn btn-primary" style="width: 100%;">Sign in</button>
-        </div>
-      </form>
-    </div>
+    <form class="row g-3">
+      <div class="col-md-2">
+        <label for="inputIndex" class="form-label">Index</label>
+        <input type="number" class="form-control" id="inputIndex">
+      </div>
+      <div class="col-md-3">
+        <label for="inputCode" class="form-label" th:text="#{code}">Code</label>
+        <input type="text" class="form-control" id="inputCode" th:placeholder="#{code}">
+      </div>
+      <div class="col-md-4">
+        <label for="inputDescription" class="form-label" th:text="#{description}">Description</label>
+        <input type="text" class="form-control" id="inputDescription" th:placeholder="#{description}">
+      </div>
+      <div class="col-md-4">
+        <label for="selectCategory" class="form-label" th:text="#{category}">Category</label>
+        <select class="form-control" id="selectCategory" th:placeholder="#{category}"></select>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Sign in</button>
+      </div>
+    </form>
     </br>
     <!-- Card for table -->
 		<div class="card">
@@ -169,7 +163,7 @@
       </div>
       <div class="mb-3">
         <label for="categoryFO" class="form-label" th:text="#{category}">Category</label>
-        <input th:name="category" type="select" class="form-control" id="categoryFO">
+        <select th:name="category" type="select" class="form-control" id="categoryFO">
       </div>
       <div class="mb-3">
         <label for="quantityFO" class="form-label" th:text="#{quantity}">Quantity</label>
