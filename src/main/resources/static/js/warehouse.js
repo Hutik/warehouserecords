@@ -28,7 +28,7 @@ fetch(target)
                     <td>${index.code}</td>
                     <td>${index.name}</td>
                     <td>${index.description}</td>
-                    <td>${index.category.name}</td>
+                    <td>${(index.category==null)? '':index.category.name}</td>
                     <td>${index.quantity}</td>
                 </tr>
             `}).join('\n');
