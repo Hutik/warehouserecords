@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
-    
-            <link rel="stylesheet" href="/css/table-scrollable-body.css" />
-    
+    <link rel="stylesheet" href="/css/table-scrollable-body.css" />
     <title th:text="#{warehouserecords}">Warehouse Records</title>
 </head>
 <body>
@@ -167,13 +165,15 @@
       </div>
       <div class="mb-3">
         <label for="categoryFO" class="form-label" th:text="#{category}">Category</label>
-        <select th:name="category" type="select" class="form-control" id="categoryFO">
+        <select th:name="category" type="select" class="form-control" id="categoryFO"></select>
       </div>
       <div class="mb-3">
         <label for="quantityFO" class="form-label" th:text="#{quantity}">Quantity</label>
-        <input th:name="quantity" type="text" class="form-control" id="quantityFO">
+        <input th:name="quantity" type="text" class="form-control" id="quantityFO"/>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
     </form>
   </div>
   <script th:inline="javascript" src="/js/warehouse.js"></script>
