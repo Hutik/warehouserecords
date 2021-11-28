@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,10 +43,19 @@ public class IndexService {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/{id}")
-    ResponseEntity<Index> update(@PathParam("id") Long id, Index index){
-        logger.info("Patch request for id: "+id);
-        return ResponseEntity.badRequest().build();
+    @PatchMapping("/{index}")
+    String updatePatch(@PathVariable("index") Long index, Index newIndex){
+        logger.info("Patch request for index: "+index);
+
+        Index changeIndex = repo.findByIndex(index).get(0);
+        changeIndex.setName(newIndex.getName());
+        changeIndex.setDescription(newIndex.getDescription());
+        changeIndex.setCategory(newIndex.getCategory());
+        changeIndex.setQuantity(newIndex.getQuantity());
+
+        repo.save(changeIndex);
+
+        return "<html><head><meta http-equiv='refresh' content='0; url='/warehouse'></head><body></body></html>";
     }
 
 }

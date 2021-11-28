@@ -45,7 +45,7 @@ function checkIndexes(event){
             
             document.getElementById('rows').innerHTML = indexes.map(index => {
                 i++;
-                return `<tr ondblclick="startEditing()">
+                return `<tr ondblclick="startEditing(${index.index})">
                     <th scope="row">${index.index}</th>
                     <td>${index.code}</td>
                     <td>${index.name}</td>
@@ -70,10 +70,24 @@ function checkIndexes(event){
         });
     }
 
-function startEditing(){
-    document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' invisible', ' visible');
-    document.getElementById('editForm').className=document.getElementById('editForm').className.replace(' invisible', ' visible');
-}
+    function startEditing(index){
+        document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' invisible', ' visible');
+        document.getElementById('editForm').className=document.getElementById('editForm').className.replace(' invisible', ' visible');
+    
+        document.getElementById('indexFO').value=index;
+    
+        $('#indexForm').attr('action', INDEXES+'/'+index);
+    
+        fetch(INDEXES+'/'+index)
+            .then(processOkResponse)
+            .then(json => json.map(material => {
+                document.getElementById('codeFO').value=material.code;
+                document.getElementById('nameFO').value=material.name;
+                document.getElementById('descriptionFO').value=material.description;
+                document.getElementById('categoryFO').value=(material.category==null)? '':material.category.id;
+                document.getElementById('quantityFO').value=material.quantity;
+            }));
+    }
 
 function stopEditing(){
     document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' visible', ' invisible');
