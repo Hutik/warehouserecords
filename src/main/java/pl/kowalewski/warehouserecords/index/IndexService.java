@@ -32,12 +32,24 @@ public class IndexService {
     }
 
     @GetMapping(params={"code", "name", "description", "categoryId"})
-    ResponseEntity<List<Index>> findByParams(@PathParam("code") String code, @PathParam("name") String name, @PathParam("description") String description, @PathParam("categoryId") Integer categoryId){
-        if(!code.isEmpty())
-            return ResponseEntity.ok(repo.findByCodeIgnoreCase(code));
-        else if(!name.isEmpty()&&description.isEmpty())
-            return ResponseEntity.ok(repo.findByNameContainingIgnoreCase(name));
-        
+    ResponseEntity<List<Index>> findByParams(@PathParam("code") String code, @PathParam("name") String name, @PathParam("description") String description, @PathParam("categoryId") Long categoryId){
+        if(categoryId==null){
+            if(!code.isEmpty())
+                return ResponseEntity.ok(repo.findByCodeIgnoreCase(code));
+            else if(!name.isEmpty()&&description.isEmpty())
+                return ResponseEntity.ok(repo.findByNameContainingIgnoreCase(name));
+            else if(name.isEmpty()&&!description.isEmpty())
+                return ResponseEntity.ok(repo.findByDescriptionContainingIgnoreCase(description));
+        }else{
+            if(!code.isEmpty())
+                return ResponseEntity.ok(repo.findByCodeIgnoreCaseAndCategoryId(code, categoryId));
+            else if(!name.isEmpty()&&description.isEmpty())
+                return ResponseEntity.ok(repo.findByNameContainingIgnoreCaseAndCategoryId(name, categoryId));
+            else if(name.isEmpty()&&!description.isEmpty())
+                return ResponseEntity.ok(repo.findByDescriptionContainingIgnoreCaseAndCategoryId(description, categoryId));
+
+            return ResponseEntity.ok(repo.findByCategoryId(categoryId));
+        }
         return ResponseEntity.badRequest().build();
     }
 
