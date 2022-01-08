@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,14 +31,13 @@ public class IndexService {
         return ResponseEntity.ok(repo.findByIndex(index));
     }
 
-    // var code = document.getElementById('inputCode').value;
-    // var name = document.getElementById('inputName').value;
-    // var description = document.getElementById('inputDescription').value;
-    // var category = document.getElementById('selectCategory').value;
-
-
     @GetMapping(params={"code", "name", "description", "categoryId"})
     ResponseEntity<List<Index>> findByParams(@PathParam("code") String code, @PathParam("name") String name, @PathParam("description") String description, @PathParam("categoryId") Integer categoryId){
+        if(!code.isEmpty())
+            return ResponseEntity.ok(repo.findByCodeIgnoreCase(code));
+        else if(!name.isEmpty()&&description.isEmpty())
+            return ResponseEntity.ok(repo.findByNameContainingIgnoreCase(name));
+        
         return ResponseEntity.badRequest().build();
     }
 
@@ -55,7 +53,7 @@ public class IndexService {
 
         repo.save(changeIndex);
 
-        return "<html><head><meta http-equiv='refresh' content='0; url='/warehouse'></head><body></body></html>";
+        return  "<html><head><meta http-equiv='refresh' content='0; url=/warehouse'></head></html>";
     }
 
 }

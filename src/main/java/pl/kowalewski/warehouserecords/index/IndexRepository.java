@@ -6,13 +6,18 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
 @Repository
-@RestController
 public interface IndexRepository extends JpaRepository<Index, Long> {
     @EntityGraph(attributePaths = {"category"})
     List<Index> findAllByOrderByIndex();
     @EntityGraph(attributePaths = {"category"})
     List<Index> findByIndex(@Param("index") Long index);
+
+    @EntityGraph(attributePaths = {"category"})
+    List<Index> findByCodeIgnoreCase(String code);
+    @EntityGraph(attributePaths = {"category"})
+    List<Index> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name, String description);
+    @EntityGraph(attributePaths = {"category"})
+    List<Index> findByNameContainingIgnoreCase(String name);
 }

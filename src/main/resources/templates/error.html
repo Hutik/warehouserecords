@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
-<title th:text="#{warehouseRecords}">Warehouse Records</title>
+<title th:text="#{warehouserecords}">Warehouse Records</title>
 </head>
 <body>
 	<div class="container">
@@ -16,11 +16,10 @@
 			<div class="card-header">Błąd</div>
 			<div class="card-body">
 				<h5 class="card-title">
-					
 					<p>Brak strony lub wytąpił nioczekiwany błąd serwera.</p>
 					<p>Proszę wrócić na poprzednią stronę</p>
 					<br/>
-					<a href="javascript:history.back()" class="btn btn-primary">Poprzednia strona</a>
+					<a href="javascript:history.back()" class="btn btn-primary" th:text="#{previouspage}">Previous Page</a>
 			</div>
 		</div>
 		</br>

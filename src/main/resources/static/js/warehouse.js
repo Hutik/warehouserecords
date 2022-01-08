@@ -76,7 +76,7 @@ function checkIndexes(event){
     
         document.getElementById('indexFO').value=index;
     
-        $('#indexForm').attr('action', INDEXES+'/'+index);
+        $('#indexForm').attr('action', '/indexes/'+index);
     
         fetch(INDEXES+'/'+index)
             .then(processOkResponse)
@@ -92,6 +92,33 @@ function checkIndexes(event){
 function stopEditing(){
     document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' visible', ' invisible');
     document.getElementById('editForm').className=document.getElementById('editForm').className.replace(' visible', ' invisible');
+}
+
+function sendData(id) {
+  console.log( 'Sending data' );
+
+  const XHR = new XMLHttpRequest();
+
+  var dataToSend = document.querySelector("indexForm").serialize();
+
+  // Define what happens on successful data submission
+  XHR.addEventListener( 'load', function(event) {
+    alert( 'Yeah! Data sent and response loaded.' );
+  } );
+
+  // Define what happens in case of error
+  XHR.addEventListener( 'error', function(event) {
+    alert( 'Oops! Something went wrong.' );
+  } );
+
+  // Set up our request
+  XHR.open( 'Patch', `/indexes/${id}` );
+
+  // Add the required HTTP header for form data POST requests
+  XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+
+  // Finally, send our data.
+  XHR.send(dataToSend);
 }
 
 function processOkResponse(response = {}) {
