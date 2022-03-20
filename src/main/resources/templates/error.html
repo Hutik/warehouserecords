@@ -6,11 +6,12 @@
 <title th:text="#{warehouserecords}">Warehouse Records</title>
 </head>
 <body>
+	<div th:replace="fragments/components :: navbar"></div>
 	<div class="container">
 
 		<div th:insert="fragments/components :: header"></div>
 		</br>
-		<div th:replace="fragments/components :: navbar"></div>
+		
 		</br>
 		<div class="card">
 			<div class="card-header">Błąd</div>

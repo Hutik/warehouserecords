@@ -7,11 +7,9 @@
     <title th:text="#{warehouserecords}">Warehouse Records</title>
 </head>
 <body>
+  <div th:replace="fragments/components :: navbar"></div>
 	<div class="container">
 		<div th:insert="fragments/components :: header"></div>
-		</br>
-		</br>
-		<div th:replace="fragments/components :: navbar"></div>
 		</br>
     <!-- filtering form -->
     <form class="row g-3" onsubmit="checkIndexes(event)">
