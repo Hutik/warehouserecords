@@ -42,6 +42,10 @@ public class MyUserPrincipal implements UserDetails{
         return user.getLastName()+" "+user.getName();
     }
 
+    public byte[] getAvatar(){
+        return user.getAvatar();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
