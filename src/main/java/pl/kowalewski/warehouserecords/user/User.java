@@ -1,10 +1,10 @@
 package pl.kowalewski.warehouserecords.user;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -20,12 +20,12 @@ public class User {
     String lastName;
     String username;
     String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<Role>();
-    File avatar;
+    byte[] avatar;
 
     public String getName() {
         return name;
@@ -64,10 +64,10 @@ public class User {
     public void setRoles(Set<Role> role) {
         this.roles = role;
     }
-    public File getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
-    public void setAvatar(File avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
     }
 }
