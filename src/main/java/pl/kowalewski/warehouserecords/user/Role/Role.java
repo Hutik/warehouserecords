@@ -1,4 +1,4 @@
-package pl.kowalewski.warehouserecords.user;
+package pl.kowalewski.warehouserecords.user.Role;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

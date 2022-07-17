@@ -21,4 +21,9 @@ public class PagesController {
 		return "warehouse";
 	}
 
+	@GetMapping("/userPanel/settings")
+	public String toUserSettings(){
+		return "userPanel/settings";
+	}
+
 }

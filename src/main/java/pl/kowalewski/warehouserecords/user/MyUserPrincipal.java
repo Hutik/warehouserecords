@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import pl.kowalewski.warehouserecords.user.Role.Role;
+
 public class MyUserPrincipal implements UserDetails{
     private User user;
 

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<script th:include="fragments/header :: headerScripts" th:remove="tag"></script>
+<title th:text="#{warehouserecords}">Warehouse Records</title>
+</head>
+<body>
+	<div th:replace="fragments/components :: navbar"></div>
+	<div class="container">
+
+		<div th:insert="fragments/components :: header"></div>
+		</br>
+		</br>
+		<div class="card">
+			<div class="card-header">Lorem ipsum</div>
+			<div class="card-body">
+				<nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true" th:text="#{profile}">Profile</button>
+            <button sec:authorize="hasRole('ADMIN')" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+            <button sec:authorize="hasRole('ADMIN')" class="nav-link" id="nav-register-tab" data-bs-toggle="tab" data-bs-target="#nav-register" type="button" role="tab" aria-controls="nav-register" aria-selected="false">Register User</button>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <form class="row g-3">
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label" th:text="#{name}">Name</label>
+                <input type="text" class="form-control" id="inputName" name="name">
+              </div>
+              <div class="col-md-6">
+                <label for="inputLastName" class="form-label" th:text="#{lastName}">Last Name</label>
+                <input type="text" class="form-control" id="inputLastName" name="lastName">
+              </div>
+              <div class="col-md-12">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" disabled>
+              </div>
+              <div class="col-md-6">
+                <label for="inputLogin" class="form-label" th:text="#{userName}">User Name</label>
+                <input type="text" class="form-control" id="inputLogin" disabled>
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label" th:text="#{password}">Password</label>
+                <input type="password" class="form-control" id="inputPassword4" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label" th:text="#{avatar}+' Comming soon...'">Avatar</label>
+                <input class="form-control" type="file" id="formFile" name="avatar" disabled>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary" th:text="#{save}">Save</button>
+              </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+          </div>
+          <div sec:authorize="hasRole('ADMIN')" class="tab-pane fade" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
+            <form class="row g-3" method="POST" action="/users" onsubmit="registerUser(event, this)" id="register_user">
+              <div class="col-md-6">
+                <label for="inputEmail4" class="form-label" th:text="#{name}">Name</label>
+                <input type="text" class="form-control" id="inputName" name="name">
+              </div>
+              <div class="col-md-6">
+                <label for="inputLastName" class="form-label" th:text="#{lastName}">Last Name</label>
+                <input type="text" class="form-control" id="inputLastName" name="lastName">
+              </div>
+              <div class="col-md-12">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" name="email">
+              </div>
+              <div class="col-md-6">
+                <label for="inputLogin" class="form-label" th:text="#{userName}">User Name</label>
+                <input type="text" class="form-control" id="inputLogin" name="userName">
+              </div>
+              <div class="col-md-6">
+                <label for="inputPassword4" class="form-label" th:text="#{password}">Password</label>
+                <input type="password" class="form-control" id="inputPassword4" name="password">
+              </div>
+              <div class="col-md-12">
+                <label for="inputRoles" class="form-label">Roles</label>
+                <select id="formRoles" class="form-select" multiple aria-label="multiple select example" name="roles"></select>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary" th:text="#{save}">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+			</div>
+		</div>
+		</br>
+		<div th:include="fragments/components :: footer"></div>
+	</div>
+	<script>
+        fetch("/roles").then(processOkResponse)
+        .then(roles => {
+          document.getElementById('formRoles').innerHTML = roles.map(role => {
+                return `<option value=${role.id}>${role.name}</option>
+            `}).join('\n');
+        });
+
+        function registerUser(event, form){
+            event.preventDefault();
+
+            const XHR = new XMLHttpRequest();
+            var dataToSend = $("#register_user").serialize();
+
+                // var file = document.getElementById('formFileNew').files[0];
+
+                // var reader = new FileReader();
+                // reader.onload = function() {
+                //   console.log(reader.result);
+                //   // image editing
+                //   // ...
+                //   var blob = window.dataURLtoBlob(reader.result);
+                //   console.log(blob, new File([blob], "image.png", {
+                //     type: "image/png"
+                //   }));
+                // };
+                
+                // dataToSend=dataToSend+'&avatar='+file.value;
+
+            var token = $("meta[name='_csrf']").attr("content"); 
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+		        XHR.open( 'POST', `/users`);
+  		      XHR.setRequestHeader( header, token );
+            XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+  		      XHR.send(dataToSend);
+                
+            console.log(dataToSend);
+        }
+
+        function processOkResponse(response = {}) {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error(`Status not 200 (${response.status})`);
+        }
+	</script>
+</body>
+</html>

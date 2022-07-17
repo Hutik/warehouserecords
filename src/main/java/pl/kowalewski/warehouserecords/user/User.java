@@ -3,21 +3,36 @@ package pl.kowalewski.warehouserecords.user;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import pl.kowalewski.warehouserecords.user.Role.Role;
+
 import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Basic(optional = false)
     Long id;
     String name;
     String lastName;
+    @NotBlank
+    @NotNull
+    @Column(unique = true)
     String username;
     String password;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -26,6 +41,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<Role>();
     byte[] avatar;
+    @NotBlank
+    @NotNull
+    @Column(unique = true)
+    String email;
 
     public String getName() {
         return name;
@@ -69,5 +88,11 @@ public class User {
     }
     public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
