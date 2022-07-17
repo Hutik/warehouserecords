@@ -57,8 +57,8 @@ public class UserService implements UserDetailsService {
         byte[] avatar = ((MyUserPrincipal) auth.getPrincipal()).getAvatar();
         // if(avatar==null) avatar=Files.readAllBytes(context.getResource("classpath:D:\Studia\Praca inżynierska\warehouserecords\src\main\resources\static\images\default_user.webp").getFile().toPath());
         if(avatar==null) {
-            File f = new File("src\\main\\resources\\static\\images\\default_user.webp");
-            logger.info(String.valueOf(f.exists()));
+            File f = new File("default_user.webp");
+            if(!f.exists()) f.createNewFile();
             avatar=Files.readAllBytes(f.toPath());
         }
 
