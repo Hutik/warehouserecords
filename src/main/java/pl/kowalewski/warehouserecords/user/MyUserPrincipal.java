@@ -41,7 +41,19 @@ public class MyUserPrincipal implements UserDetails{
 
     @Override
     public String getUsername() {
+        return user.getUsername();
+    }
+
+    public String getEmail(){
+        return user.getEmail();
+    }
+
+    public String getName(){
         return user.getName();
+    }
+
+    public String getLastName(){
+        return user.getLastName();
     }
 
     public String getFullName(){
@@ -70,5 +82,13 @@ public class MyUserPrincipal implements UserDetails{
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser(){
+        return this.user;
+    }
+
+    public Set<Role> getRoles() {
+        return user.getRoles();
     }
 }

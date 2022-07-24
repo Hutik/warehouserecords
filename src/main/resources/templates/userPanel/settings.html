@@ -24,26 +24,27 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <img src="/users/currentUser/avatar" class="rounded mx-auto d-block" style="margin: 10px;">
             <form class="row g-3" onsubmit="updateUser(event, this)" id="update_user">
               <div class="col-md-6">
-                <label for="inputEmail4" class="form-label" th:text="#{name}">Name</label>
-                <input type="text" class="form-control" id="inputName" name="name">
+                <label for="updateName" class="form-label" th:text="#{name}">Name</label>
+                <input type="text" class="form-control" id="updateName" name="name">
               </div>
               <div class="col-md-6">
-                <label for="inputLastName" class="form-label" th:text="#{lastName}">Last Name</label>
-                <input type="text" class="form-control" id="inputLastName" name="lastName">
+                <label for="updateLastName" class="form-label" th:text="#{lastName}">Last Name</label>
+                <input type="text" class="form-control" id="updateLastName" name="lastName">
               </div>
               <div class="col-md-12">
-                <label for="inputEmail4" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" disabled>
+                <label for="updateEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="updateEmail" disabled>
               </div>
               <div class="col-md-6">
-                <label for="inputLogin" class="form-label" th:text="#{userName}">User Name</label>
-                <input type="text" class="form-control" id="inputLogin" disabled>
+                <label for="updateUsername" class="form-label" th:text="#{userName}">User Name</label>
+                <input type="text" class="form-control" id="updateUsername" disabled>
               </div>
               <div class="col-md-6">
-                <label for="inputPassword4" class="form-label" th:text="#{password}">Password</label>
-                <input type="password" class="form-control" id="inputPassword4" disabled>
+                <label for="updatePassword" class="form-label" th:text="#{password}">Password</label>
+                <input type="password" class="form-control" id="updatePassword" disabled>
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label" th:text="#{avatar}">Avatar</label>
@@ -61,23 +62,23 @@
             <form class="row g-3" method="POST" action="/users" onsubmit="registerUser(event, this)" id="register_user">
               <div class="col-md-6">
                 <label for="inputEmail4" class="form-label" th:text="#{name}">Name</label>
-                <input type="text" class="form-control" id="inputName" name="name">
+                <input type="text" class="form-control" id="inputName" name="name" required>
               </div>
               <div class="col-md-6">
                 <label for="inputLastName" class="form-label" th:text="#{lastName}">Last Name</label>
-                <input type="text" class="form-control" id="inputLastName" name="lastName">
+                <input type="text" class="form-control" id="inputLastName" name="lastName" required>
               </div>
               <div class="col-md-12">
                 <label for="inputEmail4" class="form-label">Email</label>
-                <input type="email" class="form-control" id="inputEmail4" name="email">
+                <input type="email" class="form-control" id="inputEmail4" name="email" required>
               </div>
               <div class="col-md-6">
                 <label for="inputLogin" class="form-label" th:text="#{userName}">User Name</label>
-                <input type="text" class="form-control" id="inputLogin" name="userName">
+                <input type="text" class="form-control" id="inputLogin" name="userName" required>
               </div>
               <div class="col-md-6">
                 <label for="inputPassword4" class="form-label" th:text="#{password}">Password</label>
-                <input type="password" class="form-control" id="inputPassword4" name="password">
+                <input type="password" class="form-control" id="inputPassword4" name="password" required>
               </div>
               <div class="mb-3">
                 <label for="formFile" class="form-label" th:text="#{avatar}">Avatar</label>
@@ -85,7 +86,7 @@
               </div>
               <div class="col-md-12">
                 <label for="inputRoles" class="form-label">Roles</label>
-                <select id="formRoles" class="form-select" multiple aria-label="multiple select example" name="roles"></select>
+                <select id="formRoles" class="form-select" multiple aria-label="multiple select example" name="roles" required></select>
               </div>
               <div class="col-12">
                 <button type="submit" class="btn btn-primary" th:text="#{save}">Save</button>
@@ -105,6 +106,14 @@
                 return `<option value=${role.id}>${role.name}</option>
             `}).join('\n');
         });
+
+        fetch("/users/currentUser").then(processOkResponse)
+        .then(user => {
+          document.getElementById('updateName').placeholder=user.name;
+          document.getElementById('updateLastName').placeholder=user.lastName;
+          document.getElementById('updateEmail').placeholder=user.email;
+          document.getElementById('updateUsername').placeholder=user.username;
+        })
 
         function registerUser(event, form){
             event.preventDefault();

@@ -32,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pl.kowalewski.warehouserecords.user.Role.Role;
 import pl.kowalewski.warehouserecords.user.Role.RoleRepository;
+import pl.kowalewski.warehouserecords.user.UserDTO.UserDTO;
 
 @Service
 @RequestMapping("/users")
@@ -51,6 +52,11 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         return new MyUserPrincipal(user);
+    }
+
+    @GetMapping("/currentUser")
+    public ResponseEntity<UserDTO> getCurrentUser(Authentication auth){
+        return ResponseEntity.ok(new UserDTO(((MyUserPrincipal) auth.getPrincipal()).getUser()));
     }
 
     @GetMapping("/currentUser/avatar")
