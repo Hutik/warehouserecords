@@ -24,7 +24,7 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <form class="row g-3">
+            <form class="row g-3" onsubmit="updateUser(event, this)" id="update_user">
               <div class="col-md-6">
                 <label for="inputEmail4" class="form-label" th:text="#{name}">Name</label>
                 <input type="text" class="form-control" id="inputName" name="name">
@@ -46,8 +46,8 @@
                 <input type="password" class="form-control" id="inputPassword4" disabled>
               </div>
               <div class="mb-3">
-                <label for="formFile" class="form-label" th:text="#{avatar}+' Comming soon...'">Avatar</label>
-                <input class="form-control" type="file" id="formFile" name="avatar" disabled>
+                <label for="formFile" class="form-label" th:text="#{avatar}">Avatar</label>
+                <input class="form-control" type="file" id="formFile" name="avatar">
               </div>
               <div class="col-12">
                 <button type="submit" class="btn btn-primary" th:text="#{save}">Save</button>
@@ -79,6 +79,10 @@
                 <label for="inputPassword4" class="form-label" th:text="#{password}">Password</label>
                 <input type="password" class="form-control" id="inputPassword4" name="password">
               </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label" th:text="#{avatar}">Avatar</label>
+                <input class="form-control" type="file" id="formFileNew" name="avatar">
+              </div>
               <div class="col-md-12">
                 <label for="inputRoles" class="form-label">Roles</label>
                 <select id="formRoles" class="form-select" multiple aria-label="multiple select example" name="roles"></select>
@@ -108,21 +112,6 @@
             const XHR = new XMLHttpRequest();
             var dataToSend = $("#register_user").serialize();
 
-                // var file = document.getElementById('formFileNew').files[0];
-
-                // var reader = new FileReader();
-                // reader.onload = function() {
-                //   console.log(reader.result);
-                //   // image editing
-                //   // ...
-                //   var blob = window.dataURLtoBlob(reader.result);
-                //   console.log(blob, new File([blob], "image.png", {
-                //     type: "image/png"
-                //   }));
-                // };
-                
-                // dataToSend=dataToSend+'&avatar='+file.value;
-
             var token = $("meta[name='_csrf']").attr("content"); 
             var header = $("meta[name='_csrf_header']").attr("content");
 
@@ -131,7 +120,51 @@
             XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
   		      XHR.send(dataToSend);
                 
-            console.log(dataToSend);
+            XHR.onreadystatechange = function() {
+              var file = document.getElementById('formFileNew').files[0];
+
+              if(file!=null&&XHR.response!=null&&XHR.response!=""){
+                let formData = new FormData();
+                formData.set('file', file, file.name);
+
+                console.log(XHR.response);
+
+                const XHR2 = new XMLHttpRequest();
+                XHR2.open( 'POST', `/users/`+XHR.response+"/avatar");
+  		          XHR2.setRequestHeader( header, token );
+  		          XHR2.send(formData);
+              }
+            }
+        }
+
+        function updateUser(event, form){
+            event.preventDefault();
+
+            const XHR = new XMLHttpRequest();
+            var dataToSend = $("#update_user").serialize();
+
+            var token = $("meta[name='_csrf']").attr("content"); 
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+		        XHR.open( 'PATCH', `/users/currentUser`);
+  		      XHR.setRequestHeader( header, token );
+            XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+  		      XHR.send(dataToSend);
+                
+            var file = document.getElementById('formFile').files[0];
+
+            if(file!=null){
+
+              let formData = new FormData();
+                formData.set('file', file, file.name);
+
+                console.log(XHR.response);
+
+                const XHR2 = new XMLHttpRequest();
+                XHR2.open( 'POST', `/users/currentUser/avatar`);
+  		          XHR2.setRequestHeader( header, token );
+  		          XHR2.send(formData);
+            }
         }
 
         function processOkResponse(response = {}) {

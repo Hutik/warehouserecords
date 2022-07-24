@@ -22,9 +22,13 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import pl.kowalewski.warehouserecords.user.Role.Role;
 import pl.kowalewski.warehouserecords.user.Role.RoleRepository;
@@ -65,28 +69,75 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.ok().headers(headers).body(avatar);
     }
 
+    @PostMapping("/currentUser/avatar")
+    public ResponseEntity<HttpStatus> uploadAvatar(Authentication auth, @RequestParam("file") MultipartFile avatar){
+        User user = userRepository.getById(((MyUserPrincipal) auth.getPrincipal()).getId());
+        try {
+            user.setAvatar(avatar.getBytes());
+            userRepository.save(user);
+        } catch (IOException e) {
+            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PatchMapping("/currentUser")
+    public ResponseEntity<HttpStatus> updateUser(@RequestParam MultiValueMap<String, Object> values, Authentication auth){
+
+        logger.info(values.toString());
+
+        User u = userRepository.getById(((MyUserPrincipal) auth.getPrincipal()).getId());
+        
+        String name=values.get("name").get(0).toString();
+        String lastName=values.get("lastName").get(0).toString();
+        
+        if(!name.equals(""))
+            u.setName(name);
+
+        if(!lastName.equals(""))
+            u.setLastName(lastName);
+
+        userRepository.save(u);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PostMapping
-    public ResponseEntity<HttpStatus> addUser(@RequestBody MultiValueMap<String, String> values){
+    public ResponseEntity<Long> addUser(@RequestBody MultiValueMap<String, Object> values){
 
         logger.info(values.toString());
 
         User u = new User();
-        u.setEmail(values.get("email").get(0));
-        u.setName(values.get("name").get(0));
-        u.setLastName(values.get("lastName").get(0));
-        u.setUsername(values.get("userName").get(0));
-        u.setPassword(BCrypt.hashpw(values.get("password").get(0), BCrypt.gensalt()));
+        u.setEmail(values.get("email").get(0).toString());
+        u.setName(values.get("name").get(0).toString());
+        u.setLastName(values.get("lastName").get(0).toString());
+        u.setUsername(values.get("userName").get(0).toString());
+        u.setPassword(BCrypt.hashpw(values.get("password").get(0).toString(), BCrypt.gensalt()));
         
         Set<Role> roles = new HashSet<Role>();
         values.get("roles").forEach(roleId -> {
-            roles.add(roleRepository.getById(Integer.valueOf(roleId)));
+            roles.add(roleRepository.getById(Integer.valueOf(roleId.toString())));
         });
         
         u.setRoles(roles);
 
         userRepository.save(u);
 
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        return ResponseEntity.ok(userRepository.save(u).getId());
+    }
+
+    @PostMapping("/{id}/avatar")
+    public ResponseEntity<HttpStatus> uploadAvatar(@PathVariable("id") Long id, @RequestParam("file") MultipartFile avatar){
+        User user = userRepository.getById(id);
+        try {
+            user.setAvatar(avatar.getBytes());
+            userRepository.save(user);
+        } catch (IOException e) {
+            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
