@@ -2,7 +2,9 @@ package pl.kowalewski.warehouserecords.user;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import java.nio.file.Files;
@@ -144,6 +146,17 @@ public class UserService implements UserDetailsService {
         }
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getAllUsers(){
+        ArrayList<UserDTO> list = new ArrayList<UserDTO>();
+
+        userRepository.findAll().forEach(u -> {
+           list.add(new UserDTO(u)); 
+        });
+
+        return ResponseEntity.ok(list);
     }
 
 }
