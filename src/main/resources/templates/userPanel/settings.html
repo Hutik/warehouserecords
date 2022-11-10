@@ -91,6 +91,14 @@
               <div class="col-12">
                 <button type="submit" class="btn btn-primary" th:text="#{save}">Save</button>
               </div>
+              <div class="col-12">
+                <div id="addedSuccess" class="alert alert-success" role="alert" th:text="#{userAdded}" hidden>
+                  User added successfully.
+                </div>
+                <div id="addedNotSuccess" class="alert alert-danger" role="alert" th:text="#{userNotAdded}" hidden>
+                  The user was not added successfully.
+                </div>
+              </div>
             </form>
           </div>
         </div>
@@ -130,6 +138,14 @@
   		      XHR.send(dataToSend);
                 
             XHR.onreadystatechange = function() {
+              if(XHR.response!==null&&XHR.response!=""&&!isNaN(parseInt(XHR.response))){
+                document.getElementById('addedSuccess').removeAttribute('hidden');
+                document.getElementById('addedNotSuccess').setAttribute('hidden', '');
+              }else{
+                document.getElementById('addedSuccess').setAttribute('hidden', '');
+                document.getElementById('addedNotSuccess').removeAttribute('hidden');
+              }
+
               var file = document.getElementById('formFileNew').files[0];
 
               if(file!=null&&XHR.response!=null&&XHR.response!=""){
@@ -143,6 +159,7 @@
   		          XHR2.setRequestHeader( header, token );
   		          XHR2.send(formData);
               }
+
             }
         }
 
