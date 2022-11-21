@@ -1,9 +1,13 @@
 package pl.kowalewski.warehouserecords.index;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import pl.kowalewski.warehouserecords.index.category.Category;
@@ -12,6 +16,9 @@ import pl.kowalewski.warehouserecords.index.category.Category;
 @Table(name="Indexes")
 public class Index {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "index_generator")
+    @SequenceGenerator(name="index_generator", sequenceName = "index_seq", initialValue = 14, allocationSize = 1)
+    @Basic(optional = false)
     Long index;
     String code;
     String name;

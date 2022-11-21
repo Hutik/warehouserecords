@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,7 +56,7 @@ public class IndexService {
 
     @PatchMapping("/{index}")
     String updatePatch(@PathVariable("index") Long index, Index newIndex){
-        logger.info("Patch request for index: "+index);
+        // logger.info("Patch request for index: "+index);
 
         Index changeIndex = repo.findByIndex(index).get(0);
         changeIndex.setName(newIndex.getName());
@@ -66,6 +67,12 @@ public class IndexService {
         repo.save(changeIndex);
 
         return  "<html><head><meta http-equiv='refresh' content='0; url=/warehouse'></head></html>";
+    }
+
+    @PutMapping("/")
+    String addIndex(Index newIndex){
+        repo.save(newIndex);
+        return "<html><head><meta http-equiv='refresh' content='0; url=/warehouse'></head></html>";
     }
 
 }

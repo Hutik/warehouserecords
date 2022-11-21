@@ -16,6 +16,7 @@ fetch(new URL(CATEGORIES))
 
         document.getElementById('selectCategory').innerHTML=ooc;
         document.getElementById('categoryFO').innerHTML=ooc;
+        document.getElementById('categoryFOA').innerHTML=ooc;
     });
 
 function checkIndexes(event){
@@ -66,40 +67,54 @@ function checkIndexes(event){
                         <td></td>
                     </tr>`;
             }
-
         });
-    }
+}
 
-    function startEditing(index){
-        document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' invisible', ' visible');
-        document.getElementById('editForm').className=document.getElementById('editForm').className.replace(' invisible', ' visible');
+function startEditing(index){
+    document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' invisible', ' visible');
+    document.getElementById('editForm').className=document.getElementById('editForm').className.replace(' invisible', ' visible');
     
-        document.getElementById('indexFO').value=index;
+    document.getElementById('indexFO').value=index;
     
-        $('#indexForm').attr('action', '/indexes/'+index);
+    $('#indexForm').attr('action', '/indexes/'+index);
     
-        fetch(INDEXES+'/'+index)
-            .then(processOkResponse)
-            .then(json => json.map(material => {
-                document.getElementById('codeFO').value=material.code;
-                document.getElementById('nameFO').value=material.name;
-                document.getElementById('descriptionFO').value=material.description;
-                document.getElementById('categoryFO').value=(material.category==null)? '':material.category.id;
-                document.getElementById('quantityFO').value=material.quantity;
-            }));
-    }
+    fetch(INDEXES+'/'+index)
+        .then(processOkResponse)
+        .then(json => json.map(material => {
+            document.getElementById('codeFO').value=material.code;
+            document.getElementById('nameFO').value=material.name;
+            document.getElementById('descriptionFO').value=material.description;
+            document.getElementById('categoryFO').value=(material.category==null)? '':material.category.id;
+            document.getElementById('quantityFO').value=material.quantity;
+        }));
+}
 
 function stopEditing(){
     document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' visible', ' invisible');
     document.getElementById('editForm').className=document.getElementById('editForm').className.replace(' visible', ' invisible');
+
+    document.getElementById('indexFormAdd').setAttribute('hidden', '');
+    document.getElementById('indexForm').removeAttribute('hidden');
 }
 
-function sendData(id) {
+function startAdding(){
+    document.getElementById('greyBackground').className=document.getElementById('greyBackground').className.replace(' invisible', ' visible');
+    document.getElementById('editForm').className=document.getElementById('editForm').className.replace(' invisible', ' visible');
+    document.getElementById('indexForm').setAttribute('hidden', '');
+
+    var form = document.getElementById('indexFormAdd');
+    form.reset();
+    form.removeAttribute('hidden');
+}
+
+function sendData(id, event) {
+  event.preventDefault();
+
   console.log( 'Sending data' );
 
   const XHR = new XMLHttpRequest();
 
-  var dataToSend = document.querySelector("indexForm").serialize();
+  var dataToSend = $((id!=null)? '#indexForm':'#indexFormAdd').serialize();
 
   // Define what happens on successful data submission
   XHR.addEventListener( 'load', function(event) {
@@ -112,7 +127,7 @@ function sendData(id) {
   } );
 
   // Set up our request
-  XHR.open( 'Patch', `/indexes/${id}` );
+  XHR.open((id!=null)? 'Patch':'Put', `/indexes/${(id==null)? '' : id}` );
 
   // Add the required HTTP header for form data POST requests
   XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
@@ -126,4 +141,4 @@ function processOkResponse(response = {}) {
       return response.json();
     }
     throw new Error(`Status not 200 (${response.status})`);
-  }
+}
