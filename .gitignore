@@ -34,3 +34,4 @@ build/
 .vscode/
 src/main/resources/cert/keyStore.jks
 src/main/resources/cert/privateKey.key
+src/main/resources/keyStore.jks
