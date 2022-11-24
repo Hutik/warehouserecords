@@ -1,6 +1,6 @@
-var url = window.location.href.replace('http://', '').split('/')[0];
-const INDEXES = "http://"+url+"/indexes";
-const CATEGORIES = "http://"+url+"/categories";
+var url = window.location.href.replace('https://', '').split('/')[0];
+const INDEXES = "https://"+url+"/indexes";
+const CATEGORIES = "https://"+url+"/categories";
 
 document.getElementById("nav-link-home").className=document.getElementById("nav-link-home").className.replace(' active', '');
 document.getElementById("nav-link-warehouse").className+=' active';
