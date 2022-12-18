@@ -78,7 +78,7 @@ public class UserService implements UserDetailsService {
 
     @PostMapping("/currentUser/avatar")
     public ResponseEntity<HttpStatus> uploadAvatar(Authentication auth, @RequestParam("file") MultipartFile avatar){
-        User user = userRepository.getById(((MyUserPrincipal) auth.getPrincipal()).getId());
+        User user = ((MyUserPrincipal) auth.getPrincipal()).getUser();
         try {
             user.setAvatar(avatar.getBytes());
             userRepository.save(user);
@@ -92,9 +92,9 @@ public class UserService implements UserDetailsService {
     @PatchMapping("/currentUser")
     public ResponseEntity<HttpStatus> updateUser(@RequestParam MultiValueMap<String, Object> values, Authentication auth){
 
-        logger.info(values.toString());
+        // logger.info(values.toString());
 
-        User u = userRepository.getById(((MyUserPrincipal) auth.getPrincipal()).getId());
+        User u = ((MyUserPrincipal) auth.getPrincipal()).getUser();
         
         String name=values.get("name").get(0).toString();
         String lastName=values.get("lastName").get(0).toString();
@@ -157,5 +157,4 @@ public class UserService implements UserDetailsService {
 
         return ResponseEntity.ok(list);
     }
-
 }

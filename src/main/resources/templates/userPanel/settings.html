@@ -25,7 +25,7 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <img src="/users/currentUser/avatar" class="rounded mx-auto d-block" style="margin: 10px; height: 200px; width: 200px;">
+            <img id="avatar" src="/users/currentUser/avatar" class="rounded mx-auto d-block" style="margin: 10px; height: 200px; width: 200px;">
             <form class="row g-3" onsubmit="updateUser(event, this)" id="update_user">
               <div class="col-md-6">
                 <label for="updateName" class="form-label" th:text="#{name}">Name</label>
@@ -276,16 +276,21 @@
             var file = document.getElementById('formFile').files[0];
 
             if(file!=null){
-
               let formData = new FormData();
                 formData.set('file', file, file.name);
-
-                console.log(XHR.response);
 
                 const XHR2 = new XMLHttpRequest();
                 XHR2.open( 'POST', `/users/currentUser/avatar`);
   		          XHR2.setRequestHeader( header, token );
   		          XHR2.send(formData);
+
+                const avatarReader = new FileReader();
+
+                avatarReader.addEventListener("load", (fr) => {
+                  document.getElementById("avatar").setAttribute('src', fr.srcElement.result);
+                }, false);
+
+                avatarReader.readAsDataURL(file);
             }
         }
 
