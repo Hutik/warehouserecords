@@ -15,21 +15,21 @@ public interface IndexRepository extends JpaRepository<Index, Long> {
     List<Index> findByIndex(@Param("index") Long index);
 
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByCodeIgnoreCase(String code);
+    List<Index> findByCodeIgnoreCaseOrderByIndex(String code);
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name, String description);
+    List<Index> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseOrderByIndex(String name, String description);
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByNameContainingIgnoreCase(String name);
+    List<Index> findByNameContainingIgnoreCaseOrderByIndex(String name);
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByDescriptionContainingIgnoreCase(String description);
+    List<Index> findByDescriptionContainingIgnoreCaseOrderByIndex(String description);
 
     // Category
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByCodeIgnoreCaseAndCategoryId(String code, Long categoryId);
+    List<Index> findByCodeIgnoreCaseAndCategoryIdOrderByIndex(String code, Long categoryId);
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByCategoryId(Long categoryId);
+    List<Index> findByCategoryIdOrderByIndex(Long categoryId);
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByNameContainingIgnoreCaseAndCategoryId(String name, Long categoryId);
+    List<Index> findByNameContainingIgnoreCaseAndCategoryIdOrderByIndex(String name, Long categoryId);
     @EntityGraph(attributePaths = {"category"})
-    List<Index> findByDescriptionContainingIgnoreCaseAndCategoryId(String description, Long categoryId);
+    List<Index> findByDescriptionContainingIgnoreCaseAndCategoryIdOrderByIndex(String description, Long categoryId);
 }

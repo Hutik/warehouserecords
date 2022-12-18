@@ -36,20 +36,20 @@ public class IndexService {
     ResponseEntity<List<Index>> findByParams(@PathParam("code") String code, @PathParam("name") String name, @PathParam("description") String description, @PathParam("categoryId") Long categoryId){
         if(categoryId==null){
             if(!code.isEmpty())
-                return ResponseEntity.ok(repo.findByCodeIgnoreCase(code));
+                return ResponseEntity.ok(repo.findByCodeIgnoreCaseOrderByIndex(code));
             else if(!name.isEmpty()&&description.isEmpty())
-                return ResponseEntity.ok(repo.findByNameContainingIgnoreCase(name));
+                return ResponseEntity.ok(repo.findByNameContainingIgnoreCaseOrderByIndex(name));
             else if(name.isEmpty()&&!description.isEmpty())
-                return ResponseEntity.ok(repo.findByDescriptionContainingIgnoreCase(description));
+                return ResponseEntity.ok(repo.findByDescriptionContainingIgnoreCaseOrderByIndex(description));
         }else{
             if(!code.isEmpty())
-                return ResponseEntity.ok(repo.findByCodeIgnoreCaseAndCategoryId(code, categoryId));
+                return ResponseEntity.ok(repo.findByCodeIgnoreCaseAndCategoryIdOrderByIndex(code, categoryId));
             else if(!name.isEmpty()&&description.isEmpty())
-                return ResponseEntity.ok(repo.findByNameContainingIgnoreCaseAndCategoryId(name, categoryId));
+                return ResponseEntity.ok(repo.findByNameContainingIgnoreCaseAndCategoryIdOrderByIndex(name, categoryId));
             else if(name.isEmpty()&&!description.isEmpty())
-                return ResponseEntity.ok(repo.findByDescriptionContainingIgnoreCaseAndCategoryId(description, categoryId));
+                return ResponseEntity.ok(repo.findByDescriptionContainingIgnoreCaseAndCategoryIdOrderByIndex(description, categoryId));
 
-            return ResponseEntity.ok(repo.findByCategoryId(categoryId));
+            return ResponseEntity.ok(repo.findByCategoryIdOrderByIndex(categoryId));
         }
         return ResponseEntity.badRequest().build();
     }
