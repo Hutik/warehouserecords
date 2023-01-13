@@ -118,8 +118,6 @@ function sendData(id, event) {
   XHR.addEventListener( 'load', function(event) {
     alert( 'Yeah! Data sent and response loaded.' );
     stopEditing();
-
-    console.log(form[0].elements[0].name);
     
     Array.prototype.forEach.call(form[0].elements, element => {
         var elementsByClassName = document.getElementById('row'+id).getElementsByClassName(element.name)
@@ -127,11 +125,6 @@ function sendData(id, event) {
             elementsByClassName[0].textContent=element.value;
         }
     });
-
-    // document.getElementById('row'+id).getElementsByClassName('description')[0].textContent=form;
-
-    //console.log(document.getElementById((id!=null)? 'indexForm':'indexFormAdd').getElementsByName('category').innerHTML);
-    //console.log(dataToSend);
   });
 
   XHR.addEventListener( 'error', function(event) {
