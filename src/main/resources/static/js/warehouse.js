@@ -46,13 +46,13 @@ function checkIndexes(event){
             
             document.getElementById('rows').innerHTML = indexes.map(index => {
                 i++;
-                return `<tr ondblclick="startEditing(${index.index})">
+                return `<tr ondblclick="startEditing(${index.index})" id="row${index.index}">
                     <th scope="row">${index.index}</th>
-                    <td>${index.code}</td>
-                    <td>${index.name}</td>
-                    <td>${index.description}</td>
-                    <td>${(index.category==null)? '':index.category.name}</td>
-                    <td>${index.quantity}</td>
+                    <td class="code">${index.code}</td>
+                    <td class="name">${index.name}</td>
+                    <td class="description">${index.description}</td>
+                    <td class="category">${(index.category==null)? '':index.category.name}</td>
+                    <td class="quantity">${index.quantity}</td>
                 </tr>
             `}).join('\n');
 
@@ -67,6 +67,8 @@ function checkIndexes(event){
                         <td></td>
                     </tr>`;
             }
+        
+            sameHeightRows();
         });
 }
 
@@ -76,7 +78,7 @@ function startEditing(index){
     
     document.getElementById('indexFO').value=index;
     
-    $('#indexForm').attr('action', '/indexes/'+index);
+    $('#indexForm').attr('onsubmit', `sendData(${index}, event)`);
     
     fetch(INDEXES+'/'+index)
         .then(processOkResponse)
@@ -110,30 +112,47 @@ function startAdding(){
 function sendData(id, event) {
   event.preventDefault();
 
-  console.log( 'Sending data' );
-
   const XHR = new XMLHttpRequest();
+  
+  var form = $((id!=null)? '#indexForm':'#indexFormAdd');
+  var dataToSend = form.serialize();
 
-  var dataToSend = $((id!=null)? '#indexForm':'#indexFormAdd').serialize();
-
-  // Define what happens on successful data submission
   XHR.addEventListener( 'load', function(event) {
     alert( 'Yeah! Data sent and response loaded.' );
-  } );
+    stopEditing();
+    
+    Array.prototype.forEach.call(form[0].elements, element => {
+        var row = document.getElementById('row'+id);
+        if(row !== null){
+            var elementsByClassName = document.getElementById('row'+id).getElementsByClassName(element.name)
+            if(elementsByClassName.length>0){
+                elementsByClassName[0].textContent=element.value;
+            }
+        }
+    });
+  });
 
-  // Define what happens in case of error
   XHR.addEventListener( 'error', function(event) {
     alert( 'Oops! Something went wrong.' );
-  } );
+  });
 
-  // Set up our request
-  XHR.open((id!=null)? 'Patch':'Put', `/indexes/${(id==null)? '' : id}` );
-
-  // Add the required HTTP header for form data POST requests
+  XHR.open((id!=null)? 'PATCH':'PUT', `/indexes/${(id==null)? '' : id}` );
   XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
-
-  // Finally, send our data.
   XHR.send(dataToSend);
+}
+
+function sameHeightRows(){
+    var rows = document.getElementById('rows').children;
+
+    var biggest = 0;
+
+    Array.prototype.forEach.call(rows, row => {
+        if(row.clientHeight>biggest) biggest=row.clientHeight;
+    });
+
+    Array.prototype.forEach.call(rows, row => {
+        row.style.height=biggest+'px';
+    });
 }
 
 function processOkResponse(response = {}) {
