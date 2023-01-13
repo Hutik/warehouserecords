@@ -120,9 +120,12 @@ function sendData(id, event) {
     stopEditing();
     
     Array.prototype.forEach.call(form[0].elements, element => {
-        var elementsByClassName = document.getElementById('row'+id).getElementsByClassName(element.name)
-        if(elementsByClassName.length>0){
-            elementsByClassName[0].textContent=element.value;
+        var row = document.getElementById('row'+id);
+        if(row !== null){
+            var elementsByClassName = document.getElementById('row'+id).getElementsByClassName(element.name)
+            if(elementsByClassName.length>0){
+                elementsByClassName[0].textContent=element.value;
+            }
         }
     });
   });
