@@ -7,10 +7,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.websocket.server.PathParam;
+
 import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -153,6 +156,105 @@ public class UserService implements UserDetailsService {
         userRepository.findAll().forEach(u -> {
            list.add(new UserDTO(u)); 
         });
+
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping(params = {"username", "name", "lastName", "email"})
+    public ResponseEntity<List<UserDTO>> getUsers(@RequestParam(value="username") String username, @RequestParam(value="name") String name, @RequestParam(value="lastName") String lastName, @RequestParam(value="email") String email, @RequestParam(value="roles", defaultValue = "") List<Integer> roles){
+        List<User> users = new ArrayList<User>();
+        
+        if(roles.isEmpty()){
+            if(username.equals("")&&email.equals("")){
+                if(lastName.equals("")&&name.equals("")){
+                    return getAllUsers();
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByLastNameIgnoreCaseOrderById(lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByNameIgnoreCaseOrderById(name);
+                }else{
+                    users = userRepository.findByLastNameIgnoreCaseAndNameIgnoreCaseOrderById(lastName, name);
+                }
+            }else if(username.equals("")&&!email.equals("")){
+                if(lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByEmailIgnoreCase(email);
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByEmailIgnoreCaseAndLastNameIgnoreCaseOrderById(email, lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByEmailIgnoreCaseAndNameIgnoreCaseOrderById(email, name);
+                }else{
+                    users = userRepository.findByEmailIgnoreCaseAndLastNameIgnoreCaseAndNameIgnoreCaseOrderById(email, lastName, name);
+                }
+            }else if(!username.equals("")&&email.equals("")){
+                if(lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByUsernameIgnoreCase(username);
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByUsernameIgnoreCaseAndLastNameIgnoreCaseOrderById(username, lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByUsernameIgnoreCaseAndNameIgnoreCaseOrderById(username, name);
+                }else{
+                    users = userRepository.findByUsernameIgnoreCaseAndLastNameIgnoreCaseAndNameIgnoreCaseOrderById(username, lastName, name);
+                }
+            }else{
+                if(lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByUsernameIgnoreCaseAndEmailIgnoreCase(username, email);
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByUsernameIgnoreCaseAndEmailIgnoreCaseAndLastNameIgnoreCaseOrderById(username, email, lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByUsernameIgnoreCaseAndEmailIgnoreCaseAndNameIgnoreCaseOrderById(username, email, name);
+                }else{
+                    users = userRepository.findByUsernameIgnoreCaseAndEmailIgnoreCaseAndLastNameIgnoreCaseAndNameIgnoreCaseOrderById(username, email, lastName, name);
+                }
+            }
+        }else{
+            if(username.equals("")&&email.equals("")){
+                if(lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInOrderById(roles);
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInAndLastNameIgnoreCaseOrderById(roles, lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByRolesIdInAndNameIgnoreCaseOrderById(roles, name);
+                }else{
+                    users = userRepository.findByRolesIdInAndLastNameIgnoreCaseAndNameIgnoreCaseOrderById(roles, lastName, name);
+                }
+            }else if(username.equals("")&&!email.equals("")){
+                if(lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInAndEmailIgnoreCase(roles, email);
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInAndEmailIgnoreCaseAndLastNameIgnoreCaseOrderById(roles, email, lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByRolesIdInAndEmailIgnoreCaseAndNameIgnoreCaseOrderById(roles, email, name);
+                }else{
+                    users = userRepository.findByRolesIdInAndEmailIgnoreCaseAndLastNameIgnoreCaseAndNameIgnoreCaseOrderById(roles, email, lastName, name);
+                }
+            }else if(!username.equals("")&&email.equals("")){
+                if(lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCase(roles, username);
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCaseAndLastNameIgnoreCaseOrderById(roles, username, lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCaseAndNameIgnoreCaseOrderById(roles, username, name);
+                }else{
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCaseAndLastNameIgnoreCaseAndNameIgnoreCaseOrderById(roles, username, lastName, name);
+                }
+            }else{
+                if(lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCaseAndEmailIgnoreCase(roles, username, email);
+                }else if(!lastName.equals("")&&name.equals("")){
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCaseAndEmailIgnoreCaseAndLastNameIgnoreCaseOrderById(roles, username, email, lastName);
+                }else if(lastName.equals("")&&!name.equals("")){
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCaseAndEmailIgnoreCaseAndNameIgnoreCaseOrderById(roles, username, email, name);
+                }else{
+                    users = userRepository.findByRolesIdInAndUsernameIgnoreCaseAndEmailIgnoreCaseAndLastNameIgnoreCaseAndNameIgnoreCaseOrderById(roles, username, email, lastName, name);
+                }
+            }
+        }
+
+        ArrayList<UserDTO> list = new ArrayList<UserDTO>();
+
+        users.forEach(u -> {
+            list.add(new UserDTO(u)); 
+         });
 
         return ResponseEntity.ok(list);
     }
