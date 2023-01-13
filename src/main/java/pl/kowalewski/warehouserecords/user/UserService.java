@@ -83,7 +83,7 @@ public class UserService implements UserDetailsService {
             user.setAvatar(avatar.getBytes());
             userRepository.save(user);
         } catch (IOException e) {
-            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
+            ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         return ResponseEntity.status(HttpStatus.OK).build();
@@ -113,13 +113,14 @@ public class UserService implements UserDetailsService {
     @PostMapping
     public ResponseEntity<Long> addUser(@RequestBody MultiValueMap<String, Object> values){
 
-        logger.info(values.toString());
-
         User u = new User();
         u.setEmail(values.get("email").get(0).toString());
         u.setName(values.get("name").get(0).toString());
         u.setLastName(values.get("lastName").get(0).toString());
         u.setUsername(values.get("userName").get(0).toString());
+        
+        if(userRepository.existsByUsernameOrEmail(u.getUsername(), u.getEmail())) return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
+
         u.setPassword(BCrypt.hashpw(values.get("password").get(0).toString(), BCrypt.gensalt()));
         
         Set<Role> roles = new HashSet<Role>();
@@ -128,8 +129,6 @@ public class UserService implements UserDetailsService {
         });
         
         u.setRoles(roles);
-
-        userRepository.save(u);
 
         return ResponseEntity.ok(userRepository.save(u).getId());
     }
@@ -141,7 +140,7 @@ public class UserService implements UserDetailsService {
             user.setAvatar(avatar.getBytes());
             userRepository.save(user);
         } catch (IOException e) {
-            ResponseEntity.status(HttpStatus.EXPECTATION_FAILED);
+            ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         return ResponseEntity.status(HttpStatus.OK).build();
