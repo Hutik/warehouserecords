@@ -1,6 +1,6 @@
-var url = window.location.href.replace('http://', '').split('/')[0];
-const INDEXES = "http://"+url+"/indexes";
-const CATEGORIES = "http://"+url+"/categories";
+var url = window.location.href.replace('https://', '').split('/')[0];
+const INDEXES = "https://"+url+"/indexes";
+const CATEGORIES = "https://"+url+"/categories";
 
 document.getElementById("nav-link-home").className=document.getElementById("nav-link-home").className.replace(' active', '');
 document.getElementById("nav-link-warehouse").className+=' active';
@@ -67,6 +67,8 @@ function checkIndexes(event){
                         <td></td>
                     </tr>`;
             }
+        
+            sameHeightRows();
         });
 }
 
@@ -137,6 +139,20 @@ function sendData(id, event) {
   XHR.open((id!=null)? 'PATCH':'PUT', `/indexes/${(id==null)? '' : id}` );
   XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
   XHR.send(dataToSend);
+}
+
+function sameHeightRows(){
+    var rows = document.getElementById('rows').children;
+
+    var biggest = 0;
+
+    Array.prototype.forEach.call(rows, row => {
+        if(row.clientHeight>biggest) biggest=row.clientHeight;
+    });
+
+    Array.prototype.forEach.call(rows, row => {
+        row.style.height=biggest+'px';
+    });
 }
 
 function processOkResponse(response = {}) {
