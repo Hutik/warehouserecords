@@ -7,13 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.websocket.server.PathParam;
-
 import java.nio.file.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -94,9 +91,6 @@ public class UserService implements UserDetailsService {
 
     @PatchMapping("/currentUser")
     public ResponseEntity<HttpStatus> updateUser(@RequestParam MultiValueMap<String, Object> values, Authentication auth){
-
-        // logger.info(values.toString());
-
         User u = ((MyUserPrincipal) auth.getPrincipal()).getUser();
         
         String name=values.get("name").get(0).toString();
@@ -162,7 +156,7 @@ public class UserService implements UserDetailsService {
 
     @GetMapping(params = {"username", "name", "lastName", "email"})
     public ResponseEntity<List<UserDTO>> getUsers(@RequestParam(value="username") String username, @RequestParam(value="name") String name, @RequestParam(value="lastName") String lastName, @RequestParam(value="email") String email, @RequestParam(value="roles", defaultValue = "") List<Integer> roles){
-        List<User> users = new ArrayList<User>();
+        List<User> users;
         
         if(roles.isEmpty()){
             if(username.equals("")&&email.equals("")){
