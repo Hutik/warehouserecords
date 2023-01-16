@@ -126,7 +126,7 @@ function sendData(id, event) {
         if(row !== null){
             var elementsByClassName = document.getElementById('row'+id).getElementsByClassName(element.name)
             if(elementsByClassName.length>0){
-                elementsByClassName[0].textContent=element.value;
+                elementsByClassName[0].textContent=(element.name=='category')? element.selectedOptions[0].textContent:element.value;
             }
         }
     });
