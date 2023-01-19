@@ -118,7 +118,6 @@ function sendData(id, event) {
   var dataToSend = form.serialize();
 
   XHR.addEventListener( 'load', function(event) {
-    alert( 'Yeah! Data sent and response loaded.' );
     stopEditing();
     
     Array.prototype.forEach.call(form[0].elements, element => {
