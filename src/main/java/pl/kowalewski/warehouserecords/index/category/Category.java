@@ -9,10 +9,6 @@ public class Category {
     Long id;
     String name;
 
-    Category(){
-
-    }
-
     public Long getId() {
         return id;
     }

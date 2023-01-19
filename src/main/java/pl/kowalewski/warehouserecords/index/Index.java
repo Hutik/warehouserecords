@@ -17,7 +17,7 @@ import pl.kowalewski.warehouserecords.index.category.Category;
 public class Index {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "index_generator")
-    @SequenceGenerator(name="index_generator", sequenceName = "index_seq")
+    @SequenceGenerator(name="index_generator", sequenceName = "index_seq", initialValue = 13, allocationSize = 1)
     @Basic(optional = false)
     Long index;
     String code;
