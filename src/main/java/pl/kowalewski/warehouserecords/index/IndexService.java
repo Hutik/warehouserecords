@@ -55,7 +55,7 @@ public class IndexService {
     }
 
     @PatchMapping("/{index}")
-    String updatePatch(@PathVariable("index") Long index, Index newIndex){
+    ResponseEntity<Index> updatePatch(@PathVariable("index") Long index, Index newIndex){
         // logger.info("Patch request for index: "+index);
 
         Index changeIndex = repo.findByIndex(index).get(0);
@@ -64,15 +64,12 @@ public class IndexService {
         changeIndex.setCategory(newIndex.getCategory());
         changeIndex.setQuantity(newIndex.getQuantity());
 
-        repo.save(changeIndex);
-
-        return  "<html><head><meta http-equiv='refresh' content='0; url=/warehouse'></head></html>";
+        return  ResponseEntity.ok(repo.save(changeIndex));
     }
 
     @PutMapping("/")
-    String addIndex(Index newIndex){
-        repo.save(newIndex);
-        return "<html><head><meta http-equiv='refresh' content='0; url=/warehouse'></head></html>";
+    ResponseEntity<Index> addIndex(Index newIndex){
+        return ResponseEntity.ok(repo.save(newIndex));
     }
 
 }

@@ -17,6 +17,6 @@ public class CategoryService {
 
     @GetMapping
     ResponseEntity<List<Category>> findAll(){
-        return ResponseEntity.ok().body(repo.findAll());
+        return ResponseEntity.ok(repo.findAll());
     }
 }

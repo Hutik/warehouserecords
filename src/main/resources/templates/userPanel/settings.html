@@ -14,13 +14,13 @@
 		</br>
 		</br>
 		<div class="card">
-			<div class="card-header">Lorem ipsum</div>
+			<div class="card-header" th:text="#{settings}">Settings</div>
 			<div class="card-body">
 				<nav>
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true" th:text="#{profile}">Profile</button>
-            <button sec:authorize="hasRole('ADMIN')" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-            <button sec:authorize="hasRole('ADMIN')" class="nav-link" id="nav-register-tab" data-bs-toggle="tab" data-bs-target="#nav-register" type="button" role="tab" aria-controls="nav-register" aria-selected="false">Register User</button>
+            <button sec:authorize="hasRole('ADMIN')" class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false" th:text="#{profiles}">Profiles</button>
+            <button sec:authorize="hasRole('ADMIN')" class="nav-link" id="nav-register-tab" data-bs-toggle="tab" data-bs-target="#nav-register" type="button" role="tab" aria-controls="nav-register" aria-selected="false" th:text="#{registerUser}">Register User</button>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">

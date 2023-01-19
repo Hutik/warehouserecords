@@ -26,7 +26,7 @@ import javax.persistence.JoinColumn;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
-    @SequenceGenerator(name="user_generator", sequenceName = "user_seq")
+    @SequenceGenerator(name="user_generator", sequenceName = "user_seq", initialValue = 3, allocationSize = 1)
     @Basic(optional = false)
     Long id;
     String name;

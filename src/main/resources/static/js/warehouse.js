@@ -5,7 +5,7 @@ const CATEGORIES = "https://"+url+"/categories";
 document.getElementById("nav-link-home").className=document.getElementById("nav-link-home").className.replace(' active', '');
 document.getElementById("nav-link-warehouse").className+=' active';
 
-fetch(new URL(CATEGORIES))
+fetch('/categories')
     .then(processOkResponse)
     .then(categories => {
         var ooc = categories.map(category => {
