@@ -56,8 +56,6 @@ public class IndexService {
 
     @PatchMapping("/{index}")
     ResponseEntity<Index> updatePatch(@PathVariable("index") Long index, Index newIndex){
-        // logger.info("Patch request for index: "+index);
-
         Index changeIndex = repo.findByIndex(index).get(0);
         changeIndex.setName(newIndex.getName());
         changeIndex.setDescription(newIndex.getDescription());

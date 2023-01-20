@@ -27,12 +27,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import pl.kowalewski.warehouserecords.user.Role.Role;
 import pl.kowalewski.warehouserecords.user.Role.RoleRepository;
 import pl.kowalewski.warehouserecords.user.UserDTO.UserDTO;
 
@@ -43,7 +41,6 @@ public class UserService implements UserDetailsService {
     ApplicationContext context;
 
     @Autowired private UserRepository userRepository;
-    @Autowired private RoleRepository roleRepository;
 
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -107,27 +104,16 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @PostMapping
-    public ResponseEntity<Long> addUser(@RequestBody MultiValueMap<String, Object> values){
+    @PutMapping
+    public ResponseEntity<UserDTO> addUser(User user){
 
-        User u = new User();
-        u.setEmail(values.get("email").get(0).toString());
-        u.setName(values.get("name").get(0).toString());
-        u.setLastName(values.get("lastName").get(0).toString());
-        u.setUsername(values.get("userName").get(0).toString());
-        
-        if(userRepository.existsByUsernameOrEmail(u.getUsername(), u.getEmail())) return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
+        logger.info(user.username);
 
-        u.setPassword(BCrypt.hashpw(values.get("password").get(0).toString(), BCrypt.gensalt()));
-        
-        Set<Role> roles = new HashSet<Role>();
-        values.get("roles").forEach(roleId -> {
-            roles.add(roleRepository.getById(Integer.valueOf(roleId.toString())));
-        });
-        
-        u.setRoles(roles);
+        if(userRepository.existsByUsernameOrEmail(user.getUsername(), user.getEmail())) return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).build();
 
-        return ResponseEntity.ok(userRepository.save(u).getId());
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+
+        return ResponseEntity.ok(new UserDTO(userRepository.save(user)));
     }
 
     @PostMapping("/{id}/avatar")

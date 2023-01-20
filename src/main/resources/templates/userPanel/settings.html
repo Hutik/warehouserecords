@@ -182,7 +182,7 @@
               </div>
               <div class="col-md-6">
                 <label for="inputLogin" class="form-label" th:text="#{userName}">User Name</label>
-                <input type="text" class="form-control" id="inputLogin" name="userName" required>
+                <input type="text" class="form-control" id="inputLogin" name="username" required>
               </div>
               <div class="col-md-6">
                 <label for="inputPassword4" class="form-label" th:text="#{password}">Password</label>
@@ -274,13 +274,13 @@
             var token = $("meta[name='_csrf']").attr("content"); 
             var header = $("meta[name='_csrf_header']").attr("content");
 
-		        XHR.open( 'POST', `/users`);
+		        XHR.open( 'PUT', `/users`);
   		      XHR.setRequestHeader( header, token );
             XHR.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
   		      XHR.send(dataToSend);
                 
             XHR.onreadystatechange = function() {
-              if(XHR.response!==null&&XHR.response!=""&&!isNaN(parseInt(XHR.response))){
+              if(!isNaN(parseInt(JSON.parse(XHR.response).id))){
                 document.getElementById('addedSuccess').removeAttribute('hidden');
                 document.getElementById('addedNotSuccess').setAttribute('hidden', '');
               }else{
@@ -297,7 +297,7 @@
                 console.log(XHR.response);
 
                 const XHR2 = new XMLHttpRequest();
-                XHR2.open( 'POST', `/users/`+XHR.response+"/avatar");
+                XHR2.open( 'POST', `/users/`+JSON.parse(XHR.response).id+"/avatar");
   		          XHR2.setRequestHeader( header, token );
   		          XHR2.send(formData);
               }
