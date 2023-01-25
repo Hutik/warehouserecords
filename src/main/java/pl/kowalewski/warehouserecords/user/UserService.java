@@ -3,9 +3,7 @@ package pl.kowalewski.warehouserecords.user;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import java.nio.file.Files;
 import org.slf4j.Logger;
@@ -31,7 +29,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import pl.kowalewski.warehouserecords.user.Role.RoleRepository;
 import pl.kowalewski.warehouserecords.user.UserDTO.UserDTO;
 
 @Service
