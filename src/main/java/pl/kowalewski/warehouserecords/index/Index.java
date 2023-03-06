@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import pl.kowalewski.warehouserecords.index.category.Category;
 
@@ -20,12 +23,17 @@ public class Index {
     @SequenceGenerator(name="index_generator", sequenceName = "index_seq", initialValue = 13, allocationSize = 1)
     @Basic(optional = false)
     Long index;
+    @NotNull
     String code;
+    @NotNull
     String name;
     String description;
     @ManyToOne
     @JoinColumn(name="category_id")
+    @NotNull
     Category category;
+    @ColumnDefault("0")
+    @NotNull
     Double quantity;
 
     public Long getIndex() {
@@ -62,6 +70,6 @@ public class Index {
         return quantity;
     }
     public void setQuantity(Double quantity) {
-        this.quantity = quantity;
+        this.quantity = (quantity==null)? 0:quantity;
     }
 }
